@@ -1,0 +1,5 @@
+qa_manual.db
+*.db
+*service-account*.json
+__pycache__/
+.env
