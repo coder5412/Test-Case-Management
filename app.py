@@ -6,7 +6,10 @@ from firebase_sync import sync_to_firebase, firebase_status
 from openpyxl import load_workbook
 
 BASE=os.path.dirname(os.path.abspath(__file__))
-DB=os.getenv('QA_DB_PATH',os.path.join(BASE,'qa_manual.db'))
+DB = os.getenv(
+    "QA_DB_PATH",
+    "/tmp/qa_manual.db" if os.getenv("VERCEL") else os.path.join(BASE, "qa_manual.db")
+)
 app=Flask(__name__)
 app.secret_key=os.environ.get('QA_SECRET_KEY','local-only-change-me')
 app.config['MAX_CONTENT_LENGTH']=10*1024*1024
