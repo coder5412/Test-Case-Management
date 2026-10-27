@@ -6,10 +6,7 @@ from firebase_sync import sync_to_firebase, firebase_status
 from openpyxl import load_workbook
 
 BASE=os.path.dirname(os.path.abspath(__file__))
-DB = os.getenv(
-    "QA_DB_PATH",
-    "/tmp/qa_manual.db" if os.getenv("VERCEL") else os.path.join(BASE, "qa_manual.db")
-)
+DB=os.getenv('QA_DB_PATH', '/tmp/qa_manual.db' if os.getenv('VERCEL') else os.path.join(BASE,'qa_manual.db'))
 app=Flask(__name__)
 app.secret_key=os.environ.get('QA_SECRET_KEY','local-only-change-me')
 app.config['MAX_CONTENT_LENGTH']=10*1024*1024
@@ -367,6 +364,9 @@ def firebase_mirror_after_write(response):
 
 @app.route('/health')
 def health():return jsonify({'status':'ok','mode':'manual-test-management'})
+
+if os.getenv('VERCEL'):
+ init()
 
 if __name__=='__main__':
  init();app.run(host='127.0.0.1',port=int(os.environ.get('PORT','5000')),debug=False)
